@@ -24,8 +24,7 @@ set_status() {
   fi
 
   CURL_ARGS+=(
-    # TODO: move this to be last value added before executing so it is never printed out
-    --header "PRIVATE-TOKEN: ${TOKEN}"
+    --header "Authorization: Bearer ${TOKEN}"
   )
 
   curl "${CURL_ARGS[@]}"

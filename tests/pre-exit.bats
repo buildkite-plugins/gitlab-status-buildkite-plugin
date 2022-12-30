@@ -77,7 +77,8 @@ setup() {
   assert_success
   assert_output --partial "run curl" # the stub
   assert_output --partial "Executing curl with" # the log
-  refute_output --partial "PRIVATE_TOKEN"
+  refute_output --partial "Authorization"
+  refute_output --partial "Bearer"
   refute_output --partial "my-secret-token"
 
   unstub curl
