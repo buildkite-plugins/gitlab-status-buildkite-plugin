@@ -14,7 +14,7 @@ fi
 
 GITLAB_TOKEN_ENV_VAR=$(plugin_read_config TOKEN_VAR_NAME "GITLAB_ACCESS_TOKEN")
 if [ -n ${!GITLAB_TOKEN_ENV_VAR} ]; then
-  echo '+++ ERROR: gitlab access token not configured'
+  echo '+++ ERROR: gitlab access token not configured in variable ${GITLAB_TOKEN_ENV_VAR}'
   exit 1
 fi
 
@@ -36,6 +36,6 @@ VARS=(
 
 ARGUMENTS=$(IFS='&'; echo "${VARS[@]}")
 
-CURL_CMD+=("\"https://${GITLAB_URI}/api/v4/projects/17/statuses/${BUILDKITE_COMMIT}?state=success&${ARGUMENTS}\"")
+CURL_CMD+=("'https://${GITLAB_URI}/api/v4/projects/17/statuses/${BUILDKITE_COMMIT}?state=success&${ARGUMENTS}'")
 
 "${CURL_CMD[@]}"
