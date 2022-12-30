@@ -5,6 +5,8 @@ DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 
 # shellcheck source=lib/plugin.bash
 . "$DIR/../lib/plugin.bash"
+# shellcheck source=lib/urls.bash
+. "$DIR/../lib/urls.bash"
 
 
 if [ "${BUILDKITE_PROJECT_PROVIDER}" != 'gitlab' ]; then
@@ -18,8 +20,10 @@ if [ -z "${!GITLAB_TOKEN_ENV_VAR:-}" ]; then
   exit 1
 fi
 
-STATUS_NAME=$(plugin_read_config CHECK_NAME "${BUILDKITE_STEP_KEY}")
 GITLAB_URI=$(plugin_read_config GITLAB_URL "gitlab.com")
+PROJECT_SLUG=$(urlencode "$(echo "${BUILDKITE_REPO##*"${GITLAB_URI}"}" | cut -c 2- )")
+
+STATUS_NAME=$(plugin_read_config CHECK_NAME "${BUILDKITE_STEP_KEY}")
 
 TOKEN="${!GITLAB_TOKEN_ENV_VAR}"
 
@@ -36,6 +40,6 @@ VARS=(
 
 ARGUMENTS=$(IFS='&'; echo "${VARS[*]}")
 
-CURL_CMD+=("https://${GITLAB_URI}/api/v4/projects/17/statuses/${BUILDKITE_COMMIT}?state=success&${ARGUMENTS}")
+CURL_CMD+=("https://${GITLAB_URI}/api/v4/projects/${PROJECT_SLUG}/statuses/${BUILDKITE_COMMIT}?state=success&${ARGUMENTS}")
 
 "${CURL_CMD[@]}"
