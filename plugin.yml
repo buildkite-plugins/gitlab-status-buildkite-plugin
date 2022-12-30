@@ -9,7 +9,7 @@ configuration:
       type: string
     curl-debug:
       type: boolean
-    gitlab-url:
+    gitlab-host:
       type: string
     token-var-name:
       type: string
