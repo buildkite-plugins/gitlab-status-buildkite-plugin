@@ -4,6 +4,12 @@ author: https://github.com/buildkite-plugins
 requirements:
   - curl
 configuration:
-  properties: {}
+  properties:
+    check-name:
+      type: string
+    gitlab-url:
+      type: string
+    token-var-name:
+      type: string
   required: []
   additionalProperties: false

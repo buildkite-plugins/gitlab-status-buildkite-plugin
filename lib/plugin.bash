@@ -26,7 +26,6 @@ function plugin_read_list() {
   prefix_read_list "BUILDKITE_PLUGIN_${PLUGIN_PREFIX}_${1}"
 }
 
-
 # Reads either a value or a list from plugin config into a global result array
 # Returns success if values were read
 function prefix_read_list_into_result() {
@@ -52,4 +51,11 @@ function prefix_read_list_into_result() {
 # Reads either a value or a list from plugin config
 function plugin_read_list_into_result() {
   prefix_read_list_into_result "BUILDKITE_PLUGIN_${PLUGIN_PREFIX}_${1}"
+}
+
+# Reads a single value
+function plugin_read_config() {
+  local var="BUILDKITE_PLUGIN_${PLUGIN_PREFIX}_${1}"
+  local default="${2:-}"
+  echo "${!var:-$default}"
 }
