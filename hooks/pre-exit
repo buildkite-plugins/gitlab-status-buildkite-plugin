@@ -4,7 +4,7 @@ set -euo pipefail
 DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 
 # shellcheck source=lib/plugin.bash
-. "$DIR/../plugin/shared.bash"
+. "$DIR/../lib/plugin.bash"
 
 
 if [ "${BUILDKITE_PROJECT_PROVIDER}" != 'gitlab' ]; then
