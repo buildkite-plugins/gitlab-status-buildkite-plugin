@@ -1,6 +1,25 @@
 #!/bin/bash
 set -euo pipefail
 
+set_status() {
+  CURL_CMD=(
+    curl --request POST
+    # TODO: move this to be last value added before executing so it is never printed out
+    --header "PRIVATE-TOKEN: ${TOKEN}"
+  )
+
+  VARS=(
+    "target_url=${BUILDKITE_BUILD_URL}"
+    "name=${STATUS_NAME}"
+  )
+
+  ARGUMENTS=$(IFS='&'; echo "${VARS[*]}")
+
+  CURL_CMD+=("https://${GITLAB_URI}/api/v4/projects/${PROJECT_SLUG}/statuses/${BUILDKITE_COMMIT}?state=success&${ARGUMENTS}")
+
+  "${CURL_CMD[@]}"
+}
+
 # Licensed under CC-BY-SA 4.0
 # Source: https://stackoverflow.com/a/10660730
 # Almost verbatim
