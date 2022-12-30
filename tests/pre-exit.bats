@@ -44,3 +44,19 @@ setup() {
 
   unstub curl
 }
+
+@test "Curl debug prints out message (but not token)" {
+  export BUILDKITE_PLUGIN_GITLAB_STATUS_CURL_DEBUG=true
+  stub curl \
+    '\* \* \* \* \* : echo run curl'
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial "run curl" # the stub
+  assert_output --partial "Executing curl" # the log
+  refute_output --partial "PRIVATE_TOKEN"
+  refute_output --partial "my-secret-token"
+
+  unstub curl
+}

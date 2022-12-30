@@ -7,6 +7,8 @@ configuration:
   properties:
     check-name:
       type: string
+    curl-debug:
+      type: boolean
     gitlab-url:
       type: string
     token-var-name:
