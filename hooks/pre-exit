@@ -5,8 +5,8 @@ DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
 
 # shellcheck source=lib/plugin.bash
 . "$DIR/../lib/plugin.bash"
-# shellcheck source=lib/urls.bash
-. "$DIR/../lib/urls.bash"
+# shellcheck source=lib/curl.bash
+. "$DIR/../lib/curl.bash"
 
 
 if [ "${BUILDKITE_PROJECT_PROVIDER}" != 'gitlab' ]; then

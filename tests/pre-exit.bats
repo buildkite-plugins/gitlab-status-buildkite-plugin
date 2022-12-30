@@ -1,0 +1,46 @@
+#!/usr/bin/env bats
+
+setup() {
+  load "$BATS_PLUGIN_PATH/load.bash"
+
+  # Uncomment to enable stub debugging
+  # export CURL_STUB_DEBUG=/dev/tty
+
+  export BUILDKITE_BUILD_URL='https://localhost/bk/test'
+  export BUILDKITE_COMMIT='commit-sha'
+  export BUILDKITE_PROJECT_PROVIDER='gitlab'
+  export BUILDKITE_REPO='ssh://gitlab.com/USER/REPO'
+  export BUILDKITE_STEP_KEY='my-step'
+
+  export GITLAB_ACCESS_TOKEN='my-secret-token'
+}
+
+@test "Plugin fails if access token variable does not exist" {
+  export BUILDKITE_PLUGIN_GITLAB_STATUS_TOKEN_VAR_NAME='NO_EXISTS'
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_failure
+  assert_output --partial 'ERROR:'
+  assert_output --partial 'in variable NO_EXISTS'
+}
+
+@test "Plugin fails provider is not gitlab" {
+  export BUILDKITE_PROJECT_PROVIDER='not-gitlab-definitely'
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_failure
+  assert_output --partial 'Provider is not gitlab'
+}
+
+@test "Default behaviour runs curl successfully" {
+  stub curl \
+    '\* \* \* \* \* : echo run curl with $@'
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+
+  unstub curl
+}
