@@ -45,16 +45,38 @@ setup() {
   unstub curl
 }
 
+@test "Plugin fails if step key is blank and no check-name is provided" {
+  export BUILDKITE_STEP_KEY=''
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_failure
+  assert_output --partial 'ERROR:'
+  assert_output --partial 'check-name must be provided'
+}
+
+@test "Plugin fails if step-key and check-name are blank" {
+  export BUILDKITE_STEP_KEY=''
+  export BUILDKITE_PLUGIN_GITLAB_STATUS_CHECK_NAME=''
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_failure
+  assert_output --partial 'ERROR:'
+  assert_output --partial 'check-name must be provided'
+}
+
+
 @test "Curl debug prints out message (but not token)" {
   export BUILDKITE_PLUGIN_GITLAB_STATUS_CURL_DEBUG=true
   stub curl \
-    '\* \* \* \* \* : echo run curl'
+    '\* \* \* \* \* \* \* : echo run curl'
 
   run "$PWD"/hooks/pre-exit
 
   assert_success
   assert_output --partial "run curl" # the stub
-  assert_output --partial "Executing curl" # the log
+  assert_output --partial "Executing curl with" # the log
   refute_output --partial "PRIVATE_TOKEN"
   refute_output --partial "my-secret-token"
 
@@ -63,7 +85,7 @@ setup() {
 
 @test "Project is processed correctly (stripped and encoded)" {
   stub curl \
-    '\* \* \* \* \* : echo run curl against $3'
+    '\* \* \* \* \* \* \* : echo run curl against ${5}'
 
   run "$PWD"/hooks/pre-exit
 

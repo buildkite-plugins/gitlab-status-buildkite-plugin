@@ -2,7 +2,11 @@
 set -euo pipefail
 
 set_status() {
-  CURL_CMD=(curl --request POST)
+  CURL_ARGS=(
+    --request POST
+    --silent
+    --show-error
+  )
 
   VARS=(
     "state=success"
@@ -13,18 +17,18 @@ set_status() {
   # TODO: move this to --data-urlencode
   ARGUMENTS=$(IFS='&'; echo "${VARS[*]}")
 
-  CURL_CMD+=("https://${GITLAB_URI}/api/v4/projects/${PROJECT_SLUG}/statuses/${BUILDKITE_COMMIT}?${ARGUMENTS}")
+  CURL_ARGS+=("https://${GITLAB_URI}/api/v4/projects/${PROJECT_SLUG}/statuses/${BUILDKITE_COMMIT}?${ARGUMENTS}")
 
   if [ "$(plugin_read_config CURL_DEBUG "false")" = "true" ]; then
-    echo "Executing ${CURL_CMD[*]} + private token"
+    echo "Executing curl with ${CURL_ARGS[*]} + private token"
   fi
 
-  CURL_CMD+=(
+  CURL_ARGS+=(
     # TODO: move this to be last value added before executing so it is never printed out
     --header "PRIVATE-TOKEN: ${TOKEN}"
   )
 
-  "${CURL_CMD[@]}"
+  curl "${CURL_ARGS[@]}"
 }
 
 # Licensed under CC-BY-SA 4.0
