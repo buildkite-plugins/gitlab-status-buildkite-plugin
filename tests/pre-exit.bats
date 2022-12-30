@@ -9,7 +9,7 @@ setup() {
   export BUILDKITE_BUILD_URL='https://localhost/bk/test'
   export BUILDKITE_COMMIT='commit-sha'
   export BUILDKITE_PROJECT_PROVIDER='gitlab'
-  export BUILDKITE_REPO='ssh://gitlab.com/USER/REPO'
+  export BUILDKITE_REPO='ssh://gitlab.com/USER/REPO.git'
   export BUILDKITE_STEP_KEY='my-step'
 
   export GITLAB_ACCESS_TOKEN='my-secret-token'
@@ -57,6 +57,20 @@ setup() {
   assert_output --partial "Executing curl" # the log
   refute_output --partial "PRIVATE_TOKEN"
   refute_output --partial "my-secret-token"
+
+  unstub curl
+}
+
+@test "Project is processed correctly (stripped and encoded)" {
+  stub curl \
+    '\* \* \* \* \* : echo run curl against $3'
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial "run curl" # the stub
+  assert_output --partial "/USER%2fREPO/"
+  refute_output --partial "USER/REPO.git"
 
   unstub curl
 }

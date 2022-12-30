@@ -21,8 +21,8 @@ if [ -z "${!GITLAB_TOKEN_ENV_VAR:-}" ]; then
 fi
 
 GITLAB_URI=$(plugin_read_config GITLAB_URL "gitlab.com")
-PROJECT_SLUG=$(urlencode "$(echo "${BUILDKITE_REPO##*"${GITLAB_URI}"}" | cut -c 2- )")
-
+PROJECT="$(echo "${BUILDKITE_REPO##*"${GITLAB_URI}"}" | cut -c 2- )"
+PROJECT_SLUG=$(urlencode "${PROJECT%.git}")
 STATUS_NAME=$(plugin_read_config CHECK_NAME "${BUILDKITE_STEP_KEY}")
 
 TOKEN="${!GITLAB_TOKEN_ENV_VAR}"
