@@ -36,7 +36,7 @@ setup() {
 
 @test "Default behaviour runs curl successfully" {
   stub curl \
-    '\* \* \* \* \* : echo run curl with $@'
+    'echo run curl with $@'
 
   run "$PWD"/hooks/pre-exit
 
@@ -70,7 +70,7 @@ setup() {
 @test "Curl debug prints out message (but not token)" {
   export BUILDKITE_PLUGIN_GITLAB_STATUS_CURL_DEBUG=true
   stub curl \
-    '\* \* \* \* \* \* \* : echo run curl'
+    'echo run curl'
 
   run "$PWD"/hooks/pre-exit
 
@@ -86,7 +86,7 @@ setup() {
 
 @test "Project is processed correctly (stripped and encoded)" {
   stub curl \
-    '\* \* \* \* \* \* \* : echo run curl against ${5}'
+    "echo run curl against \${5}"
 
   run "$PWD"/hooks/pre-exit
 
