@@ -115,3 +115,17 @@ setup() {
 
   unstub curl
 }
+
+@test "StepID is passed through in URL if available" {
+  export BUILDKITE_STEP_ID='my-step-id'
+  stub curl \
+    "echo run curl against \${5}"
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial "run curl" # the stub
+  assert_output --partial "%23my-step-id" # the argument
+
+  unstub curl
+}

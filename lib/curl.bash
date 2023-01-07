@@ -12,7 +12,7 @@ set_status() {
 
   VARS=(
     "state=${status}"
-    "target_url=${BUILDKITE_BUILD_URL}"
+    "target_url=${BUILDKITE_BUILD_URL}%23${BUILDKITE_STEP_ID:-}"
     "name=${STATUS_NAME}"
   )
 
