@@ -33,4 +33,10 @@ PROJECT_SLUG=$(urlencode "${PROJECT%.git}")
 
 TOKEN="${!GITLAB_TOKEN_ENV_VAR}"
 
-set_status
+if [ "${BUILDKITE_COMMAND_STATUS}" -eq 0 ]; then
+  status="success"
+else
+  status="failure"
+fi
+
+set_status "${status}"

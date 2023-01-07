@@ -8,8 +8,10 @@ set_status() {
     --show-error
   )
 
+  local status=$1
+
   VARS=(
-    "state=success"
+    "state=${status}"
     "target_url=${BUILDKITE_BUILD_URL}"
     "name=${STATUS_NAME}"
   )

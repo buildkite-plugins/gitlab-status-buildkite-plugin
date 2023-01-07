@@ -8,6 +8,7 @@ setup() {
 
   export BUILDKITE_BUILD_URL='https://localhost/bk/test'
   export BUILDKITE_COMMIT='commit-sha'
+  export BUILDKITE_COMMAND_STATUS='0'
   export BUILDKITE_PROJECT_PROVIDER='gitlab'
   export BUILDKITE_REPO='ssh://gitlab.com/USER/REPO.git'
   export BUILDKITE_STEP_KEY='my-step'
@@ -41,6 +42,8 @@ setup() {
   run "$PWD"/hooks/pre-exit
 
   assert_success
+  assert_output --partial "run curl" # the stub
+  assert_output --partial "state=success" # the argument
 
   unstub curl
 }
@@ -94,6 +97,21 @@ setup() {
   assert_output --partial "run curl" # the stub
   assert_output --partial "/USER%2fREPO/"
   refute_output --partial "USER/REPO.git"
+
+  unstub curl
+}
+
+@test "Command exit code not 0 sets failure" {
+  export BUILDKITE_COMMAND_STATUS='1'
+
+  stub curl \
+    "echo run curl against \${5}"
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial "run curl against" # the stub
+  assert_output --partial "state=failure" # the stub
 
   unstub curl
 }
