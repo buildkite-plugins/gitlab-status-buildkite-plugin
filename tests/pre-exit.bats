@@ -7,8 +7,8 @@ setup() {
   # export CURL_STUB_DEBUG=/dev/tty
 
   export BUILDKITE_BUILD_URL='https://localhost/bk/test'
+  export BUILDKITE_COMMAND_EXIT_STATUS='0'
   export BUILDKITE_COMMIT='commit-sha'
-  export BUILDKITE_COMMAND_STATUS='0'
   export BUILDKITE_PROJECT_PROVIDER='gitlab'
   export BUILDKITE_REPO='ssh://gitlab.com/USER/REPO.git'
   export BUILDKITE_STEP_KEY='my-step'
@@ -102,7 +102,7 @@ setup() {
 }
 
 @test "Command exit code not 0 sets failure" {
-  export BUILDKITE_COMMAND_STATUS='1'
+  export BUILDKITE_COMMAND_EXIT_STATUS='1'
 
   stub curl \
     "echo run curl against \${5}"
