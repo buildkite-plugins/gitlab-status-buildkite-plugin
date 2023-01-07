@@ -111,7 +111,7 @@ setup() {
 
   assert_success
   assert_output --partial "run curl against" # the stub
-  assert_output --partial "state=failure" # the stub
+  assert_output --partial "state=failed" # the stub
 
   unstub curl
 }
