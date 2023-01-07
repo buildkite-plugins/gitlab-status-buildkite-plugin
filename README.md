@@ -12,7 +12,7 @@ The following pipeline just set the status to success
 steps:
   - command: "echo 'OK'"
     plugins:
-      - gitlab-status#v1.0.0: ~
+      - gitlab-status#v0.1.0: ~
 ```
 
 ## Configuration options
@@ -41,10 +41,14 @@ Whether to show the arguments for the `curl` command to execute (exluding the ac
 
 The host to communicate with gitlab. Should be the same as the one in `BUILDKITE_REPO`. Default: `gitlab.com`
 
-#### `token-env-var` (string)
+#### `token-var-name` (string)
 
 Name **of the variable** that containers the value of the gitlab access token to authenticate with its API. Default: `GITLAB_ACCESS_TOKEN`
 
 ## Development
 
-You can run existing tests with the following command: `docker run --rm -ti -v "$PWD":/plugin buildkite/plugin-tester:v3.0.1`
+You can run existing development tools with the following commands:
+
+* tests: `docker run --rm -ti -v "$PWD":/plugin buildkite/plugin-tester:v3.0.1`
+* linter: `docker run --rm -ti -v "$PWD":/plugin buildkite/plugin-linter --id gitlab-status`
+* shellcheck: `docker run -v "$PWD":/mnt --rm -ti koalaman/shellcheck:stable hooks/* lib/*`

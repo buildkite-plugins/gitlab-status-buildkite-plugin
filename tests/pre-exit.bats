@@ -43,7 +43,8 @@ setup() {
 
   assert_success
   assert_output --partial "run curl" # the stub
-  assert_output --partial "state=success" # the argument
+  assert_output --partial "state=success" # the state
+  assert_output --partial "name=my-step" # the name
 
   unstub curl
 }
@@ -68,7 +69,6 @@ setup() {
   assert_output --partial 'ERROR:'
   assert_output --partial 'check-name must be provided'
 }
-
 
 @test "Curl debug prints out message (but not token)" {
   export BUILDKITE_PLUGIN_GITLAB_STATUS_CURL_DEBUG=true
@@ -126,6 +126,56 @@ setup() {
   assert_success
   assert_output --partial "run curl" # the stub
   assert_output --partial "%23my-step-id" # the argument
+
+  unstub curl
+}
+
+@test "GITLAB_HOST changes the gitlab URL" {
+  export BUILDKITE_PLUGIN_GITLAB_STATUS_GITLAB_HOST='my-server'
+  export BUILDKITE_REPO='ssh://my-server/USER/REPO.git'
+
+  stub curl \
+    "echo run curl against \${5}"
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial "run curl" # the stub
+  assert_output --partial "//my-server/api/v4"
+  refute_output --partial "//gitlab.com/api/v4"
+
+  unstub curl
+}
+
+@test "Can change reported name with check-name option" {
+  export BUILDKITE_PLUGIN_GITLAB_STATUS_CHECK_NAME='my-test'
+
+  stub curl \
+    "echo run curl against \${5}"
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial 'run curl' # the stub
+  assert_output --partial 'name=my-test' # the check name
+  refute_output --partial 'name=my-step' # the step name
+
+  unstub curl
+}
+
+
+@test "DebugCan change reported name with check-name option" {
+  export BUILDKITE_PLUGIN_GITLAB_STATUS_CHECK_NAME='my-test'
+
+  stub curl \
+    "echo run curl against \${5}"
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial 'run curl' # the stub
+  assert_output --partial 'name=my-test' # the check name
+  refute_output --partial 'name=my-step' # the step name
 
   unstub curl
 }
