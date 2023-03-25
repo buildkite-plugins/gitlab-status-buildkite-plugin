@@ -163,9 +163,8 @@ setup() {
   unstub curl
 }
 
-
-@test "DebugCan change reported name with check-name option" {
-  export BUILDKITE_PLUGIN_GITLAB_STATUS_CHECK_NAME='my-test'
+@test "Check name option can have special characters" {
+  export BUILDKITE_PLUGIN_GITLAB_STATUS_CHECK_NAME='my test ":@'
 
   stub curl \
     "echo run curl against \${11}; while shift; do if [ \"\${1:-}\" = '--data-urlencode' ]; then echo with data \$2; fi; done"
@@ -174,7 +173,7 @@ setup() {
 
   assert_success
   assert_output --partial 'run curl' # the stub
-  assert_output --partial 'with data name=my-test' # the check name
+  assert_output --partial 'with data name=my test ":@' # the check name
   refute_output --partial 'with data name=my-step' # the step name
 
   unstub curl
