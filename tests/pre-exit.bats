@@ -17,7 +17,7 @@ setup() {
 }
 
 @test "Plugin fails if access token variable does not exist" {
-  export BUILDKITE_PLUGIN_GITLAB_STATUS_TOKEN_VAR_NAME='NO_EXISTS'
+  export BUILDKITE_PLUGIN_GITLAB_STATUS_API_TOKEN_VAR_NAME='NO_EXISTS'
 
   run "$PWD"/hooks/pre-exit
 

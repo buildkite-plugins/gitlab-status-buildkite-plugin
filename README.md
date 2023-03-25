@@ -27,6 +27,10 @@ Technically, there are no required options for this plugin to work. It is to not
 
 ### Optional
 
+#### `api-token-var-name` (string)
+
+Name **of the variable** that contains the value of the gitlab access token to authenticate with its API. Default: `GITLAB_ACCESS_TOKEN`
+
 #### `check-name` (string)
 
 The name of the check status being reported.
@@ -40,10 +44,6 @@ Whether to show the arguments for the `curl` command to execute (exluding the ac
 #### `gitlab-host` (string)
 
 The host to communicate with gitlab. Should be the same as the one in `BUILDKITE_REPO`. Default: `gitlab.com`
-
-#### `token-var-name` (string)
-
-Name **of the variable** that contains the value of the gitlab access token to authenticate with its API. Default: `GITLAB_ACCESS_TOKEN`
 
 ## Development
 
