@@ -11,6 +11,7 @@ The following pipeline just set the status to success
 ```yml
 steps:
   - command: "echo 'OK'"
+    key: "success"
     plugins:
       - gitlab-status#v0.1.0: ~
 ```
