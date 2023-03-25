@@ -20,6 +20,7 @@ set_status() {
     CURL_ARGS+=(--data-urlencode "$i")
   done
 
+  # https://docs.gitlab.com/ee/api/commits.html#set-the-pipeline-status-of-a-commit
   CURL_ARGS+=("https://${GITLAB_HOST}/api/v4/projects/${PROJECT_SLUG}/statuses/${BUILDKITE_COMMIT}")
 
   if [ "$(plugin_read_config CURL_DEBUG "false")" = "true" ]; then
