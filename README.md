@@ -43,12 +43,12 @@ The host to communicate with gitlab. Should be the same as the one in `BUILDKITE
 
 #### `token-var-name` (string)
 
-Name **of the variable** that containers the value of the gitlab access token to authenticate with its API. Default: `GITLAB_ACCESS_TOKEN`
+Name **of the variable** that contains the value of the gitlab access token to authenticate with its API. Default: `GITLAB_ACCESS_TOKEN`
 
 ## Development
 
 You can run existing development tools with the following commands:
 
-* tests: `docker run --rm -ti -v "$PWD":/plugin buildkite/plugin-tester:v3.0.1`
+* tests: `docker run --rm -ti -v "$PWD":/plugin buildkite/plugin-tester:v4.0.0`
 * linter: `docker run --rm -ti -v "$PWD":/plugin buildkite/plugin-linter --id gitlab-status`
 * shellcheck: `docker run -v "$PWD":/mnt --rm -ti koalaman/shellcheck:stable hooks/* lib/*`
