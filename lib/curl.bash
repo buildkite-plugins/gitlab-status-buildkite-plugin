@@ -6,6 +6,7 @@ set_status() {
     --request POST
     --silent
     --show-error
+    --get
   )
 
   local status=$1
