@@ -16,10 +16,11 @@ set_status() {
     "name=${STATUS_NAME}"
   )
 
-  # TODO: move this to --data-urlencode
-  ARGUMENTS=$(IFS='&'; echo "${VARS[*]}")
+  for i in "${VARS[@]}"; do
+    CURL_ARGS+=(--data-urlencode "$i")
+  done
 
-  CURL_ARGS+=("https://${GITLAB_HOST}/api/v4/projects/${PROJECT_SLUG}/statuses/${BUILDKITE_COMMIT}?${ARGUMENTS}")
+  CURL_ARGS+=("https://${GITLAB_HOST}/api/v4/projects/${PROJECT_SLUG}/statuses/${BUILDKITE_COMMIT}")
 
   if [ "$(plugin_read_config CURL_DEBUG "false")" = "true" ]; then
     echo "Executing curl with ${CURL_ARGS[*]} + private token"
