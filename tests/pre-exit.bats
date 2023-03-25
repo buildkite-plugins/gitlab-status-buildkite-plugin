@@ -89,7 +89,7 @@ setup() {
 
 @test "Project is processed correctly (stripped and encoded)" {
   stub curl \
-    "echo run curl against \${5}"
+    "echo run curl against \${11}"
 
   run "$PWD"/hooks/pre-exit
 
@@ -105,13 +105,13 @@ setup() {
   export BUILDKITE_COMMAND_EXIT_STATUS='1'
 
   stub curl \
-    "echo run curl against \${5}"
+    "echo run curl against \${11}; while shift; do if [ \"\${1:-}\" = '--data-urlencode' ]; then echo with data \$2; fi; done"
 
   run "$PWD"/hooks/pre-exit
 
   assert_success
   assert_output --partial "run curl against" # the stub
-  assert_output --partial "state=failed" # the stub
+  assert_output --partial "with data state=failed" # the stub
 
   unstub curl
 }
@@ -119,14 +119,14 @@ setup() {
 @test "StepID is passed through in URL if available" {
   export BUILDKITE_STEP_ID='my-step-id'
   stub curl \
-    "echo run curl against \${5}"
+    "echo run curl against \${11}; while shift; do if [ \"\${1:-}\" = '--data-urlencode' ]; then echo with data \$2; fi; done"
 
   run "$PWD"/hooks/pre-exit
 
   assert_success
   assert_output --partial "run curl" # the stub
   assert_output --partial "%23my-step-id" # the argument
-
+  
   unstub curl
 }
 
@@ -135,7 +135,7 @@ setup() {
   export BUILDKITE_REPO='ssh://my-server/USER/REPO.git'
 
   stub curl \
-    "echo run curl against \${5}"
+    "echo run curl against \${11}"
 
   run "$PWD"/hooks/pre-exit
 
@@ -151,14 +151,14 @@ setup() {
   export BUILDKITE_PLUGIN_GITLAB_STATUS_CHECK_NAME='my-test'
 
   stub curl \
-    "echo run curl against \${5}"
+    "echo run curl against \${11}; while shift; do if [ \"\${1:-}\" = '--data-urlencode' ]; then echo with data \$2; fi; done"
 
   run "$PWD"/hooks/pre-exit
 
   assert_success
   assert_output --partial 'run curl' # the stub
-  assert_output --partial 'name=my-test' # the check name
-  refute_output --partial 'name=my-step' # the step name
+  assert_output --partial 'with data name=my-test' # the check name
+  refute_output --partial 'with data name=my-step' # the step name
 
   unstub curl
 }
@@ -168,14 +168,14 @@ setup() {
   export BUILDKITE_PLUGIN_GITLAB_STATUS_CHECK_NAME='my-test'
 
   stub curl \
-    "echo run curl against \${5}"
+    "echo run curl against \${11}; while shift; do if [ \"\${1:-}\" = '--data-urlencode' ]; then echo with data \$2; fi; done"
 
   run "$PWD"/hooks/pre-exit
 
   assert_success
   assert_output --partial 'run curl' # the stub
-  assert_output --partial 'name=my-test' # the check name
-  refute_output --partial 'name=my-step' # the step name
+  assert_output --partial 'with data name=my-test' # the check name
+  refute_output --partial 'with data name=my-step' # the step name
 
   unstub curl
 }
