@@ -1,6 +1,6 @@
 # Gitlab Status Buildkite Plugin
 
-A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) for setting the status on a GitLab commit.
+A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) for setting the status on a GitLab commit (It's currently an MVP).
 
 This plugin requires that the agent has a gitlab access token ([personal](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#personal-access-tokens), [group](https://docs.gitlab.com/ee/user/group/settings/group_access_tokens.html), [project](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html) or [OAuth2](https://docs.gitlab.com/ee/api/oauth2.html)) configured with `api` scope.
 
