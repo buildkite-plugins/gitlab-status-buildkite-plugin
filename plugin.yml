@@ -1,0 +1,17 @@
+name: Gitlab Status
+description: Reports the build status back to gitlab
+author: https://github.com/buildkite-plugins
+requirements:
+  - curl
+configuration:
+  properties:
+    api-token-var-name:
+      type: string
+    check-name:
+      type: string
+    curl-debug:
+      type: boolean
+    gitlab-host:
+      type: string
+  required: []
+  additionalProperties: false
