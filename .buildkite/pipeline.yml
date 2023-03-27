@@ -2,14 +2,17 @@ steps:
   - label: ":shell: Shellcheck"
     plugins:
       shellcheck#v1.3.0:
-        files: hooks/**
+        files:
+          - hooks/**
+          - lib/**
 
   - label: ":sparkles:"
     plugins:
       plugin-linter#v3.1.0:
         id: gitlab-status
 
-  - label: ":docker: :hammer:"
+  - label: "🔨 Tests"
     plugins:
-      docker-compose#v4.11.0:
-        run: tests
+      - plugin-tester#v1.0.0: ~
+
+
