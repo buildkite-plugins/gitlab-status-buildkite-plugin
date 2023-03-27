@@ -117,7 +117,7 @@ setup() {
 }
 
 @test "StepID is passed through in URL if available" {
-  export BUILDKITE_STEP_ID='my-step-id'
+  export BUILDKITE_JOB_ID='my-step-id'
   stub curl \
     "echo run curl against \${12}; while shift; do if [ \"\${1:-}\" = '--data-urlencode' ]; then echo with data \$2; fi; done"
 
@@ -125,7 +125,7 @@ setup() {
 
   assert_success
   assert_output --partial "run curl" # the stub
-  assert_output --partial "%23my-step-id" # the argument
+  assert_output --partial "#my-step-id" # the argument
   
   unstub curl
 }
