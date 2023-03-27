@@ -13,7 +13,7 @@ steps:
   - command: "echo 'OK'"
     key: "success"
     plugins:
-      - gitlab-status#v0.1.0: ~
+      - gitlab-status#v1.0.0: ~
 ```
 
 ## Configuration options

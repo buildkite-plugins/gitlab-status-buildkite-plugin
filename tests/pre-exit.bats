@@ -116,7 +116,7 @@ setup() {
   unstub curl
 }
 
-@test "StepID is passed through in URL if available" {
+@test "JobID is passed through in URL if available" {
   export BUILDKITE_JOB_ID='my-step-id'
   stub curl \
     "echo run curl against \${12}; while shift; do if [ \"\${1:-}\" = '--data-urlencode' ]; then echo with data \$2; fi; done"
