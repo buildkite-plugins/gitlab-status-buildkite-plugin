@@ -1,4 +1,4 @@
-# Gitlab Status Buildkite Plugin
+# Gitlab Status Buildkite Plugin [![Build status](https://badge.buildkite.com/c8fbdc52eafaf1b5b9f74463c8b8736abad9895b7a825f6189.svg)](https://buildkite.com/buildkite/plugins-gitlab-status)
 
 A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) for setting the status on a GitLab commit (It's currently an MVP).
 
