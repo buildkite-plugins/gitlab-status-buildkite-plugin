@@ -33,7 +33,9 @@ PROJECT_SLUG=$(urlencode "${PROJECT%.git}")
 
 TOKEN="${!GITLAB_TOKEN_ENV_VAR}"
 
-if [ "${BUILDKITE_COMMAND_EXIT_STATUS}" -eq 0 ]; then
+# BUILDKITE_COMMAND_EXIT_STATUS is not set in cases when the environment hook terminates with an error
+# Defaulting it to empty makes the comparison fail and the build gets marked correctly as failure
+if [ "${BUILDKITE_COMMAND_EXIT_STATUS:-}" -eq 0 ]; then
   status="success"
 else
   status="failed"

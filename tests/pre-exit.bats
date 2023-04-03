@@ -116,6 +116,21 @@ setup() {
   unstub curl
 }
 
+@test "Command exit code not set sets failure" {
+  unset BUILDKITE_COMMAND_EXIT_STATUS
+
+  stub curl \
+    "echo run curl against \${12}; while shift; do if [ \"\${1:-}\" = '--data-urlencode' ]; then echo with data \$2; fi; done"
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial "run curl against" # the stub
+  assert_output --partial "with data state=failed" # the stub
+
+  unstub curl
+}
+
 @test "JobID is passed through in URL if available" {
   export BUILDKITE_JOB_ID='my-step-id'
   stub curl \
