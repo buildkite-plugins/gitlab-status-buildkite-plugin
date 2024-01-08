@@ -28,11 +28,7 @@ set_status() {
     echo "Executing curl with ${CURL_ARGS[*]} + private token"
   fi
 
-  CURL_ARGS+=(
-    --header "Authorization: Bearer ${TOKEN}"
-  )
-
-  curl "${CURL_ARGS[@]}"
+  curl "${CURL_ARGS[@]}" --header @<(printf 'Authorization: Bearer %s\n' "${TOKEN}")
 }
 
 # Licensed under CC-BY-SA 4.0
