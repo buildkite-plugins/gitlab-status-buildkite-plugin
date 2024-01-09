@@ -193,3 +193,18 @@ setup() {
 
   unstub curl
 }
+
+@test "Check \$BUILDKITE_PARALLEL_JOB appended to \$STATUS_NAME" {
+  export BUILDKITE_PARALLEL_JOB=2
+
+  stub curl \
+    "echo run curl against \${12}; while shift; do if [ \"\${1:-}\" = '--data-urlencode' ]; then echo with data \$2; fi; done"
+
+  run "$PWD"/hooks/pre-exit
+
+  assert_success
+  assert_output --partial 'run curl' # the stub
+  assert_output --partial 'with data name=my-step_2' # the step name with parallel job number
+
+  unstub curl
+}
