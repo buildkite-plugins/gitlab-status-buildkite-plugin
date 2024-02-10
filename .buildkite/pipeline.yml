@@ -8,7 +8,7 @@ steps:
 
   - label: ":sparkles:"
     plugins:
-      plugin-linter#v3.2.0:
+      plugin-linter#v3.3.0:
         id: gitlab-status
 
   - label: "🔨 Tests"
