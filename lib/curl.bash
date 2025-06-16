@@ -29,6 +29,7 @@ set_status() {
   fi
 
   curl "${CURL_ARGS[@]}" --header @<(printf 'Authorization: Bearer %s\n' "${TOKEN}")
+  echo
 }
 
 # Licensed under CC-BY-SA 4.0
