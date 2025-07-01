@@ -4,6 +4,8 @@ A [Buildkite plugin](https://buildkite.com/docs/agent/v3/plugins) for setting th
 
 This plugin requires that the agent has a gitlab access token ([personal](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#personal-access-tokens), [group](https://docs.gitlab.com/ee/user/group/settings/group_access_tokens.html), [project](https://docs.gitlab.com/ee/user/project/settings/project_access_tokens.html) or [OAuth2](https://docs.gitlab.com/ee/api/oauth2.html)) configured with `api` scope.
 
+Buildkite can now also set commit statuses directly from Buildkite for both GitLab.com and GitLab Self-Managed instances. [Check it out in our docs](https://buildkite.com/docs/pipelines/source-control/gitlab#commit-statuses).
+
 ## Example
 
 The following pipeline just set the status to success
@@ -20,7 +22,7 @@ steps:
 
 ### Required
 
-Technically, there are no required options for this plugin to work. It is to note that defaults will cause failures in the following situations:
+Technically, there are no required options for this plugin to work. It is worth noting that defaults will cause failures in the following situations:
 
 * `check-name`: if the step does not have a `key`
 * `token-var-name`: if the access token is not available in the variable `GITLAB_ACCESS_TOKEN`
