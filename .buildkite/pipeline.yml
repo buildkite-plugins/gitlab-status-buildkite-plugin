@@ -13,6 +13,6 @@ steps:
 
   - label: "🔨 Tests"
     plugins:
-      - plugin-tester#v1.1.1: ~
+      - plugin-tester#v1.2.0: ~
 
 
